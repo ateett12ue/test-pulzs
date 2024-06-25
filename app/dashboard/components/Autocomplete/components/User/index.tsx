@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { User as UserType } from "../../../../../../types/index";
 import { StarHalf } from "lucide-react";
@@ -10,6 +10,8 @@ interface UserListProps {
   handleRemove: (user: UserType) => void;
   lastSelectedIndex: number | null;
   handleToggle: (user: UserType) => void;
+  clickedOnDialogTrigger: boolean;
+  setClickOnDialogTrigger: (state: any) => void;
 }
 // const insertLineBreak = (str: string, breakIndex: number): string => {
 //   const chunks: string[] = [];
@@ -30,17 +32,48 @@ const UserList: React.FC<UserListProps> = ({
   handleRemove,
   lastSelectedIndex,
   handleToggle,
+  clickedOnDialogTrigger,
+  setClickOnDialogTrigger,
 }) => {
   const { data: session, status } = useSession();
 
-  // const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
 
-  // const handleCheckboxChange = () => {
-  //   setIsChecked(!isChecked);
-  // };
-  // console.log("Users in autocomplete", users);
+  const [userSwitchStates, setUserSwitchStates] = useState<{
+    [key: string]: boolean;
+  }>({});
+
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+  };
+  console.log("Users in autocomplete", users);
 
   const userId = session?.user.id;
+
+  // useEffect(() => {
+  //   // Update all switches based on the clickedOnDialogTrigger prop
+  //   const newSwitchStates = users.reduce<{ [key: number]: boolean }>(
+  //     (acc, user) => {
+  //       acc[user.id] = clickedOnDialogTrigger;
+  //       return acc;
+  //     },
+  //     {}
+  //   );
+  //   setUserSwitchStates(newSwitchStates);
+  // }, [clickedOnDialogTrigger, users]);
+
+  // const handleSwitchToggle = (user: UserType) => {
+  //   setUserSwitchStates((prevStates) => ({
+  //     ...prevStates,
+  //     [user.id]: !prevStates[user.id],
+  //   }));
+  //   handleToggle(user);
+  // };
+
+  const handleInputClick = () => {
+    setClickOnDialogTrigger(!clickedOnDialogTrigger);
+  };
+
   return (
     <div
       className={`flex flex-col justify-center items-center gap-2 px-1 py-2  ${
@@ -77,7 +110,52 @@ const UserList: React.FC<UserListProps> = ({
             {/* Check if the name has more than 4 letters */}
             {user.name.length > 4 ? insertLineBreak(user.name, 4) : user.name}
           </span>
-          
+
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              value=""
+              checked={clickedOnDialogTrigger}
+              // checked={false}
+              // checked={userSwitchStates[user.id] || false}
+              className="sr-only peer "
+              onChange={() => handleToggle(user)}
+              // onChange={() => handleSwitchToggle(user)}
+              onClick={handleInputClick}
+            ></input>
+            <div className="w-11 h-6 flex justify-start pl-1 items-center bg-gray-200 peer-focus:outline-none    rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-[#8645FF]">
+              {/* <StarHalf fill="yellow" strokeWidth={0} /> */}
+              <span className="text-xs text-white ">FYI</span>
+            </div>
+            <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
+          </label>
+
+          {/* <label className="flex items-center relative w-max cursor-pointer select-none">
+            <input
+              type="checkbox"
+              value=""
+              checked={isChecked}
+              className={`appearance-none transition-colors cursor-pointer w-14 h-7 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-blue-500 ${
+                isChecked ? "bg-green-500" : "bg-red-500"
+              }`}
+              // onChange={() => handleToggle(user)}
+
+              onChange={() => setIsChecked(!isChecked)}
+            ></input>
+            <span className="absolute font-medium text-xs uppercase right-1 text-white">
+              OFF
+            </span>
+            <span className="absolute font-medium text-xs uppercase right-8 text-white">
+              ON
+            </span>
+            <span
+              className={`w-7 h-7 absolute rounded-full transform transition-transform bg-gray-200 ${
+                isChecked ? "translate-x-7" : ""
+              }`}
+              style={{ right: "7px" }}
+            />
+          </label> */}
+
           {/* <div className="relative inline-block align-middle select-none">
             <input
               type="checkbox"
@@ -85,13 +163,13 @@ const UserList: React.FC<UserListProps> = ({
               className="hidden"
               checked={isChecked}
               onChange={handleCheckboxChange}
-            />
-            <label
+            /> */}
+          {/* <label
               htmlFor="toggle-button"
-              className="toggle-button-cover block bg-gray-200 w-20 h-14 rounded-full cursor-pointer"
+              className="toggle-button-cover block bg-gray-200 w-2 h-5 rounded-full cursor-pointer"
             >
               <span
-                className={`button-cover block bg-white w-12 h-12 rounded-full ${
+                className={`button-cover block bg-white w-2 h-5 rounded-full ${
                   isChecked ? "translate-x-6" : "translate-x-0"
                 } shadow-md transform transition-transform duration-300 ease-in-out`}
               ></span>
@@ -118,8 +196,8 @@ const UserList: React.FC<UserListProps> = ({
                   </svg>
                 )}
               </span>
-            </label>
-          </div> */}
+            </label> */}
+          {/* </div> */}
 
           <button className="pr-3 h-10 w-10" onClick={() => handleRemove(user)}>
             &#x2715;

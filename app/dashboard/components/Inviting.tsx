@@ -60,8 +60,8 @@ export function Inviting(props: WorkspaceProps) {
   return (
     <Dialog open={openModel} onOpenChange={setOpenModel}>
       <DialogTrigger asChild>
-        <span className="flex flex-row font-[Inter] font-normal text-sm text-left items-center m-1 ">
-          <MdGroupAdd className="ml-1 mr-1" />
+        <span className="flex flex-row font-[Inter] font-normal text-sm text-left items-center ml-2 gap-1 ">
+          <MdGroupAdd className="" />
           Invite Coworkers
         </span>
       </DialogTrigger>

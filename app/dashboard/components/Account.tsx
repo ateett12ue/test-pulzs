@@ -4,7 +4,7 @@ import { Settings } from "./AccountSettings";
 import { AvatarDemo } from "./avatar";
 import { IoIosArrowDown } from "react-icons/io";
 import { useSession, signOut } from "next-auth/react";
-import {fetchData} from "../../utils/axios"
+import { fetchData } from "../../utils/axios";
 export interface User {
   id: string;
   name: string;
@@ -36,19 +36,19 @@ const Account = () => {
   };
 
   const toggleOpenSettings = () => {
-    setOpenSettings(!openSettings)
-    toggleBoth()
-  }
+    setOpenSettings(!openSettings);
+    toggleBoth();
+  };
 
   const fetchUserInfo = async () => {
     if (session && userId) {
       try {
         const userData = await fetchData({
-          url:`/get-user-info?user_id=${userId}`,
+          url: `/get-user-info?user_id=${userId}`,
           body: null,
-          method: "get"
+          method: "get",
         });
-        
+
         setUser(userData?.userInfo);
       } catch (ex) {
         console.log("ex from user", ex);
@@ -60,28 +60,28 @@ const Account = () => {
     fetchUserInfo();
   }, [userId]);
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchUserInfo();
-  },[openSettings])
+  }, [openSettings]);
 
   return (
     <div>
       <div className="relative flex mx-2">
         <p>
           <a className="absolute shadow-xl w-full bottom-1 left-0 flex flex-col font-[Inter] justify-start font-normal text-sm text-left m-1 ">
-            {showSettings && <Settings setOpenSettings={toggleOpenSettings}/>}
+            {showSettings && <Settings setOpenSettings={toggleOpenSettings} />}
             {showLogOut && <LogOutPopUp />}
           </a>
         </p>
       </div>
       <div
-        className="flex flex-row items-center justify-center px-2 h-12 cursor-pointer"
+        className="flex  flex-row items-center justify-center px-2 h-12 cursor-pointer"
         onClick={toggleBoth}
       >
-        <div>
-          <AvatarDemo imageUrl={user?.image}/>
-        </div>
+        <AvatarDemo imageUrl={user?.image} />
+
         <p className="px-2">{user?.name}</p>
+
         <IoIosArrowDown />
       </div>
     </div>

@@ -44,6 +44,8 @@ export type Granularity =
 interface DateTimePickerProps extends DatePickerStateOptions<DateValue> {
   // granularity?: Granularity;
   onStateChange: (state: any) => void;
+  setClickOnDialogTrigger: (state: any) => void;
+
   // setShowRespondByComponent: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -80,6 +82,18 @@ const DateTimePicker = React.forwardRef<HTMLDivElement, DateTimePickerProps>(
       },
     });
 
+    const handleFYITabClick = () => {
+      // Logic specific to FYI tab click
+
+      props.setClickOnDialogTrigger(true); // Update the parent's state
+    };
+
+    const handleRespondByTabClick = () => {
+      // Logic specific to FYI tab click
+
+      props.setClickOnDialogTrigger(false); // Update the parent's state
+    };
+
     return (
       <div
         {...groupProps}
@@ -108,15 +122,17 @@ const DateTimePicker = React.forwardRef<HTMLDivElement, DateTimePickerProps>(
                 <TabsList className=" w-full rounded-[10px] bg-gray-100 flex flex-row px-2">
                   <div className="flex  w-full rounded-[10px] bg-gray-100 ">
                     <TabsTrigger
-                      value="account"
+                      value="Respond by"
                       className="w-1/2 rounded-[10px] flex gap-1 data-[state=active]:bg-white data-[state=active]:text-violet-600"
+                      onClick={handleRespondByTabClick}
                     >
                       <Clock3 size={16} color="#8645FF" />
                       <span>Respond by</span>
                     </TabsTrigger>
                     <TabsTrigger
-                      value="password"
+                      value="FYI"
                       className="w-1/2 rounded-[10px] gap-1 data-[state=active]:bg-white data-[state=active]:text-violet-600"
+                      onClick={handleFYITabClick}
                     >
                       <svg
                         className="w-5 h-5"
@@ -163,7 +179,7 @@ const DateTimePicker = React.forwardRef<HTMLDivElement, DateTimePickerProps>(
                 </TabsList>
 
                 <TabsContent
-                  value="account"
+                  value="Respond by"
                   className=" w-full flex flex-col justify-center items-center "
                 >
                   <Calendar {...calendarProps} />
@@ -179,7 +195,7 @@ const DateTimePicker = React.forwardRef<HTMLDivElement, DateTimePickerProps>(
                   )}
                 </TabsContent>
                 <TabsContent
-                  value="password"
+                  value="FYI"
                   className=" w-full flex flex-col justify-center items-center cursor-not-allowed opacity-50"
                 >
                   {/* <div className="cursor-not-allowed"> */}

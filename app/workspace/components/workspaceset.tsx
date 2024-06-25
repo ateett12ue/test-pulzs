@@ -14,7 +14,7 @@ import { workspace } from "../../dashboard/components/dashboard";
 import toast from "react-hot-toast";
 import { WorkspaceProps } from "../../dashboard/components/DropDown";
 import { useSession } from "next-auth/react";
-import {fetchData} from "../../utils/axios"
+import { fetchData } from "../../utils/axios";
 export interface WorkspaceMember {
   id: string;
   name: string;
@@ -50,13 +50,12 @@ export function WorkSpaceSet(props: WorkspaceProps) {
         //   `http://localhost:8080/api/get-workspace-members?workspace_id=${props.selectedWorkspace?.workspace_id}`
         // );
         const workspaceMemberData = await fetchData({
-            url: `/get-workspace-members?workspace_id=${props.selectedWorkspace?.workspace_id}`,
-            body: null,
-            method: 'get'
-          });
+          url: `/get-workspace-members?workspace_id=${props.selectedWorkspace?.workspace_id}`,
+          body: null,
+          method: "get",
+        });
         // const data = await workspaceMemberData.json();
         setWorkspaceMembers(workspaceMemberData.workspaceMembers);
-        
       } catch (ex) {
         console.log("ex from workspace", ex);
         // alert("Error while fetching workspace");
@@ -68,18 +67,15 @@ export function WorkSpaceSet(props: WorkspaceProps) {
     if (props.selectedWorkspace?.workspace_id) {
       try {
         const workspaceData = await fetchData({
-          url:`/get-workspace?workspace_id=${props.selectedWorkspace?.workspace_id}`,
+          url: `/get-workspace?workspace_id=${props.selectedWorkspace?.workspace_id}`,
           body: null,
-          method: 'get'
-        }
-        );
+          method: "get",
+        });
         // const data = await workspaceData.json();
         setWorkspace(workspaceData.workspace);
         if (workspaceData.workspace?.name) {
           setWorkspaceName(workspaceData.workspace?.name);
         }
-
-        
       } catch (ex) {
         console.log("ex from workspace", ex);
         // alert("Error while fetching workspace");
@@ -104,13 +100,13 @@ export function WorkSpaceSet(props: WorkspaceProps) {
       // );
 
       const response = await fetchData({
-          url: `/update-workspace-name`,
-          method: 'post',
-          body: JSON.stringify({
-              workspace_id: props.selectedWorkspace?.workspace_id,
-              workspaceName: workspaceName,
-            }),
-          });
+        url: `/update-workspace-name`,
+        method: "post",
+        body: JSON.stringify({
+          workspace_id: props.selectedWorkspace?.workspace_id,
+          workspaceName: workspaceName,
+        }),
+      });
 
       if (response) {
         // const data = await response.json();
@@ -131,7 +127,6 @@ export function WorkSpaceSet(props: WorkspaceProps) {
 
   const leaveWorkspace = async () => {
     try {
-      
       // const response = await fetch(
       //   "http://localhost:8080/api/leave-workspace",
       //   {
@@ -147,17 +142,15 @@ export function WorkSpaceSet(props: WorkspaceProps) {
       // );
 
       const response = await fetchData({
-          url: "/leave-workspace",
-          method: "post",
-          body: JSON.stringify({
-              workspace_id: props.selectedWorkspace?.workspace_id,
-              user_id: userId,
-            }),
+        url: "/leave-workspace",
+        method: "post",
+        body: JSON.stringify({
+          workspace_id: props.selectedWorkspace?.workspace_id,
+          user_id: userId,
+        }),
       });
 
       if (response) {
-        
-
         const workspace: workspace = {
           name: "",
           workspace_creator_id: "",
@@ -168,7 +161,6 @@ export function WorkSpaceSet(props: WorkspaceProps) {
         toast.success("workspace left successfully");
       } else {
         // const data = await response.json();
-        
 
         toast.error(response?.error);
       }
@@ -182,7 +174,6 @@ export function WorkSpaceSet(props: WorkspaceProps) {
 
   const deleteWorkspace = async () => {
     try {
-      
       // const response = await fetch(
       //   "http://localhost:8080/api/delete-workspace",
       //   {
@@ -200,14 +191,12 @@ export function WorkSpaceSet(props: WorkspaceProps) {
         url: "/delete-workspace",
         method: "post",
         body: JSON.stringify({
-            workspace_id: props.selectedWorkspace?.workspace_id,
-            user_id: userId,
-          }),
+          workspace_id: props.selectedWorkspace?.workspace_id,
+          user_id: userId,
+        }),
       });
 
       if (response) {
-        
-
         const workspace: workspace = {
           name: "",
           workspace_creator_id: "",
@@ -231,8 +220,8 @@ export function WorkSpaceSet(props: WorkspaceProps) {
   return (
     <Dialog open={modelOpen} onOpenChange={setModelOpen}>
       <DialogTrigger asChild>
-        <span className="flex flex-row font-[Inter] font-normal text-sm text-left items-center mt-1">
-          <IoMdSettings className="ml-3" />
+        <span className="flex flex-row font-[Inter] font-normal text-sm text-left items-center ml-2 gap-1">
+          <IoMdSettings className="" />
           Workspace Settings
         </span>
       </DialogTrigger>
@@ -306,7 +295,6 @@ export function WorkSpaceSet(props: WorkspaceProps) {
                           value={workspaceName}
                           disabled={workspace?.workspace_creator_id != userId}
                           onChange={(e) => {
-                            
                             setWorkspaceName(e.target.value);
                           }}
                         />

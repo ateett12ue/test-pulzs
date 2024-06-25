@@ -11,8 +11,8 @@ const Header = (props: Props) => {
   return (
     <>
       <div className="container mb-2">
-        <div className="flex flex-row grow justify-between py-3">
-          <div className="font-bold">{props.headerTitle}</div>
+        <div className="flex flex-row grow justify-around  lg:justify-between items-center py-3">
+          <div className="font-bold lg:ml-4">{props.headerTitle}</div>
           <div className="search-container ">
             <div className="relative w-96 shadow-2xl shadow-slate-400">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">

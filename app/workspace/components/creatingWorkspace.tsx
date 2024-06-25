@@ -48,7 +48,6 @@ export function CreatingWorkspace(props: WorkspaceProps) {
         }),
       });
 
-  
       if (response) {
         // console.log("SendVideo response:", data);
         props.updateWorkspace(response.workspace);
@@ -56,7 +55,7 @@ export function CreatingWorkspace(props: WorkspaceProps) {
         setOpenModel(false);
       } else {
         console.error("workspace not created", response);
-        toast.error("try again",response);
+        toast.error("try again", response);
       }
     } catch (error) {
       console.error("Error creating workspace:", error);
@@ -65,9 +64,9 @@ export function CreatingWorkspace(props: WorkspaceProps) {
   };
   return (
     <Dialog open={openModel} onOpenChange={setOpenModel}>
-      <DialogTrigger asChild>
-        <span className="flex flex-row font-[Inter] font-normal text-sm text-left justify-center items-center m-1">
-          <FaPlus className="mx-1.5" />
+      <DialogTrigger asChild className="">
+        <span className="flex flex-row font-[Inter] font-normal text-sm text-left justify-center items-center ml-2 gap-1">
+          <FaPlus className="" />
           New Workspace
         </span>
       </DialogTrigger>

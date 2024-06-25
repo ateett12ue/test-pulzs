@@ -14,12 +14,12 @@ export function Sidebar({ onSidebarClick }: SidebarProps) {
     setActiveButton(page);
   };
   return (
-    <div className={cn("pb-12")}>
+    <div className={cn("pb-0")}>
       <div className="space-y-4 py-4">
         <div className="px-3 py-2">
           <div className="space-y-1">
             <Button
-              className={`w-full justify-start hover:bg-purple-200 ${
+              className={`w-full justify-start lg:gap-1 hover:bg-purple-200 ${
                 activeButton === "activity"
                   ? "bg-purple-200"
                   : "hover:bg-purple-200"
@@ -55,10 +55,10 @@ export function Sidebar({ onSidebarClick }: SidebarProps) {
                   />{" "}
                 </g>
               </svg>
-              Activity
+              <span> Activity</span>
             </Button>
             <Button
-              className={`w-full justify-start hover:bg-purple-200 ${
+              className={`w-full justify-start lg:gap-1 hover:bg-purple-200 ${
                 activeButton === "myPulzez"
                   ? "bg-purple-200"
                   : "hover:bg-purple-200"
@@ -85,7 +85,7 @@ export function Sidebar({ onSidebarClick }: SidebarProps) {
                   />
                 </g>
               </svg>
-              My Pulzes
+              <span> My Pulzes</span>
             </Button>
           </div>
         </div>

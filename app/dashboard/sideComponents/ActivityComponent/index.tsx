@@ -11,6 +11,7 @@ const ActivityPage = ({ userVideos, workspace, handleDeleteVideo }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   let filteredUserVideos;
   const user_id = session?.user.id;
+  console.log("uservideos of mypulze:", userVideos);
   // if (userVideos) {
   //   //   filteredUserVideos = userVideos.userVideos.filter((video) => {
   //   //     const responseTime = new Date(video.sendVideos?.[0]?.responseTime);
@@ -20,7 +21,7 @@ const ActivityPage = ({ userVideos, workspace, handleDeleteVideo }) => {
   //   filteredUserVideos = userVideos.userVideos;
   // }
   if (userVideos) {
-    filteredUserVideos = userVideos?.userVideos?.filter((video) => {
+    filteredUserVideos = userVideos?.filter((video: any) => {
       const responseTime = video.sendVideos?.[0]?.responseTime;
       if (!responseTime) {
         return true; // If responseTime is not there, add the video to filteredVideos
@@ -28,6 +29,7 @@ const ActivityPage = ({ userVideos, workspace, handleDeleteVideo }) => {
       const responseDateTime = new Date(
         responseTime.toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
       );
+
       return currentTime < responseDateTime;
     });
   }
@@ -55,7 +57,7 @@ const ActivityPage = ({ userVideos, workspace, handleDeleteVideo }) => {
       {/* <CaughtUp /> */}
       {/* {userVideos && userVideos.userVideos.length > 0 ? ( */}
       {filteredUserVideos && filteredUserVideos.length > 0 ? (
-        filteredUserVideos.map((video) => (
+        filteredUserVideos.map((video: any) => (
           <NotificationTab
             key={video.video_id}
             video={video}
@@ -72,7 +74,10 @@ const ActivityPage = ({ userVideos, workspace, handleDeleteVideo }) => {
       <div className="notification-container">
         <div className="flex flex-col mx-3 my-6">
           <div>Done for now</div>
-          {userVideos?.userVideos?.map((video) => {
+          {userVideos?.map((video) => {
+            {
+              /* {userVideos?.map((video) => { */
+            }
             const recipients = video?.sendVideos?.[0]?.recipients;
 
             if (recipients && recipients.length > 0) {

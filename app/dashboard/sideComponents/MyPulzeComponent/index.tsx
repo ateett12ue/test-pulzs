@@ -45,6 +45,7 @@ const ActivityPage = ({
   const user_id = session?.user.id;
   let filteredUserVideos;
   if (userVideos) {
+    console.log("userVideos in ACtivity Page:", userVideos);
     filteredUserVideos = userVideos.filter((video) => {
       const responseTimeFromVideo = video.sendVideos?.[0]?.responseTime;
 

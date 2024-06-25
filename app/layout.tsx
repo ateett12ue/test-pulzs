@@ -1,5 +1,6 @@
 import { Providers } from "../components/Providers";
 import toast, { Toaster } from "react-hot-toast";
+import { MyContextProvider } from "../context/MyContext";
 import "./globals.css";
 
 export default function RootLayout({
@@ -10,9 +11,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
-        {/* {children} */}
-        <Toaster />
+        <MyContextProvider>
+          <Providers>{children}</Providers>
+          {/* {children} */}
+          <Toaster />
+        </MyContextProvider>
       </body>
     </html>
   );

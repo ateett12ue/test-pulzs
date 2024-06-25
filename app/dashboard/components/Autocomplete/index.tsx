@@ -60,6 +60,8 @@ export default function AutoComplete({
   const [focusedUserIndex, setFocusedUserIndex] = useState(-1);
   const { data: session, status } = useSession();
   const userId = session?.user.id;
+  const [clickedOnDialogTrigger, setClickOnDialogTrigger] =
+    useState<boolean>(false);
   useEffect(() => {
     // Fetch initial users from the database when the component mounts
     fetchUsersFromDatabase();
@@ -299,6 +301,10 @@ export default function AutoComplete({
     });
   };
 
+  useEffect(() => {
+    console.log("clickedOnDialogTrigger:", clickedOnDialogTrigger);
+  }, [clickedOnDialogTrigger]);
+
   return (
     <Container className=" flex  justify-start  w-full">
       {/* <h1 className="text-4xl font-bold text-blue-600">Pick Users</h1> */}
@@ -314,6 +320,8 @@ export default function AutoComplete({
                     handleRemove={handleRemove}
                     lastSelectedIndex={lastSelectedIndex}
                     handleToggle={handleToggle}
+                    clickedOnDialogTrigger={clickedOnDialogTrigger}
+                    setClickOnDialogTrigger={setClickOnDialogTrigger}
                   />
                 )}
 
@@ -343,6 +351,7 @@ export default function AutoComplete({
                 <DateTimePicker
                   granularity={"minute"}
                   onStateChange={onStateChange}
+                  setClickOnDialogTrigger={setClickOnDialogTrigger}
                   // setShowRespondByComponent={setShowRespondByComponent}
                 />
               )}

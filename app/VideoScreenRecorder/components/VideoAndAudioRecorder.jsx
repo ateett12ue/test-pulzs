@@ -10,7 +10,7 @@ import RecordRTC from "recordrtc";
 import { useMyContext } from "../../../context/MyContext";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
-import {fetchData} from "../../utils/axios"
+import { fetchData } from "../../utils/axios";
 const VideoAndAudioRecorder = forwardRef((props, ref) => {
   const {
     title,
@@ -105,6 +105,15 @@ const VideoAndAudioRecorder = forwardRef((props, ref) => {
         formData.append("userId", userId);
         formData.append("selectWorkspaceId", selectWorkspace?.workspace_id);
 
+        const response = await fetch(
+          "http://localhost:8080/api/uploadVideo",
+          // `http://localhost:8080/api/comments/createvideocomment/${videoId}`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
         // const response = await fetch(
         //   "http://localhost:8080/api/uploadVideo",
         //   // `http://localhost:8080/api/comments/createvideocomment/${videoId}`,
@@ -113,57 +122,63 @@ const VideoAndAudioRecorder = forwardRef((props, ref) => {
         //     body: formData,
         //   }
         // );
-        
-        const response = await fetchData({
-          url: "/uploadVideo",
-          method: "post",
-          body: formData,
-        });
 
+        // const response = await fetchData({
+        //   url: "/uploadVideo",
+        //   method: "post",
+        //   body: formData,
+        // });
+        if (response.ok) {
+          const responseData = await response.json();
+          const { result } = responseData;
+          setResultVideosrccontext(
+            `https://d1yt4919vxgwb5.cloudfront.net/${result.VideoUploadedToS3Details.Key}`
+          );
+          console.log("Server Response:", response);
+          console.log("Server Response result:", result);
+          console.log(
+            "Server Response result,VideoId:",
+            result.VideoUploadedtoVideoMySqlDetails.video_id
+          );
 
-        // const responseData = await response.json();
-        const { result } = response;
-        setResultVideosrccontext(
-          `https://d1yt4919vxgwb5.cloudfront.net/${result.VideoUploadedToS3Details.key}`
-        );
-        console.log("Server Response:", response);
-        console.log("Server Response result:", result);
-        console.log(
-          "Server Response result,VideoId:",
-          result.VideoUploadedtoVideoMySqlDetails.video_id
-        );
+          setResultVideosrc(
+            `https://d1yt4919vxgwb5.cloudfront.net/${result.VideoUploadedToS3Details.Key}`
+          );
 
-        setResultVideosrc(
-          `https://d1yt4919vxgwb5.cloudfront.net/${result.VideoUploadedToS3Details.key}`
-        );
+          // console.log(` src:${resultVideosrccontext}`);
+          // onRecordingComplete(resultVideosrc);
 
-        // console.log(` src:${resultVideosrccontext}`);
-        // onRecordingComplete(resultVideosrc);
+          // let state = {
+          //   resultVideosrc:`https://d1yt4919vxgwb5.cloudfront.net/${result.key}`, // Set a default value
+          // };
 
-        // let state = {
-        //   resultVideosrc:`https://d1yt4919vxgwb5.cloudfront.net/${result.key}`, // Set a default value
-        // };
-
-        console.log(resultVideosrc);
-        if (response.success) {
-          console.log(`src:${resultVideosrccontext}`);
-          if (typeof onRecordingCompleteAndGettingVideoId === "function") {
-            try {
-              onRecordingCompleteAndGettingVideoId(
-                result.VideoUploadedtoVideoMySqlDetails.video_id
+          console.log(resultVideosrc);
+          if (responseData.success) {
+            console.log(`src:${resultVideosrccontext}`);
+            if (typeof onRecordingCompleteAndGettingVideoId === "function") {
+              try {
+                onRecordingCompleteAndGettingVideoId(
+                  result.VideoUploadedtoVideoMySqlDetails.video_id
+                );
+              } catch (error) {
+                console.error("Error doing the function:", error?.error);
+              }
+            } else {
+              console.error(
+                "onRecordingCompleteAndGettingVideoId is not a function"
               );
-            } catch (error) {
-              console.error("Error doing the function:", error?.error);
             }
-          } else {
-            console.error(
-              "onRecordingCompleteAndGettingVideoId is not a function"
-            );
-          }
 
-          toast("Video uploaded successfully");
+            toast("Video uploaded successfully");
+          } else {
+            toast("Video upload failed");
+          }
         } else {
-          toast("Video upload failed");
+          console.error(
+            "Failed to upload video becuase of no response.ok is there:",
+            response.statusText
+          );
+          toast.error("Video upload failed becuase of response");
         }
       } catch (error) {
         console.error("Error uploading video:", error?.error);

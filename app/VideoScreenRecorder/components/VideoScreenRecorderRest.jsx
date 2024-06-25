@@ -1,4 +1,3 @@
-
 "use client";
 import React, {
   forwardRef,
@@ -13,7 +12,7 @@ import { useMyContext } from "../../../context/MyContext";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
 
-import {fetchData} from "../../utils/axios"
+import { fetchData } from "../../utils/axios";
 
 const VideoScreenRecorder = forwardRef((props, ref) => {
   const {
@@ -32,7 +31,7 @@ const VideoScreenRecorder = forwardRef((props, ref) => {
   console.log("Requestbody from videoScreenRecorder", requestBody);
   console.log(`typecomment1:${typeComment1}`);
   console.log("saveVideoAfterStopRecording", saveVideoAfterStopRecordingOrNot);
-  
+
   const workspaceId = selectWorkspace?.workspace_id;
 
   useImperativeHandle(ref, () => ({
@@ -111,7 +110,8 @@ const VideoScreenRecorder = forwardRef((props, ref) => {
     } catch (error) {
       console.error(error);
       alert(
-        "Unable to capture your screen. Please check console logs.\n" + error?.error
+        "Unable to capture your screen. Please check console logs.\n" +
+          error?.error
       );
     }
   };
@@ -124,7 +124,7 @@ const VideoScreenRecorder = forwardRef((props, ref) => {
       });
     } catch (error) {
       console.error(error?.error);
-      toast(error?.error)
+      toast(error?.error);
     }
   };
 
@@ -213,70 +213,95 @@ const VideoScreenRecorder = forwardRef((props, ref) => {
             formData.append("userId", userId);
             formData.append("selectWorkspaceId", selectWorkspace?.workspace_id);
 
-            // const response = await fetch(
-            //   "http://localhost:8080/api/uploadVideo",
-            //   // `http://localhost:8080/api/comments/createvideocomment/${videoId}`,
-            //   {
-            //     method: "POST",
-            //     body: formData,
-            //   }
-            // );
-            console.log("formData",formData)
-            const response = await fetchData({
-              url: "/uploadVideo",
-              method: "post",
-              body: formData
-          });
+            console.log("form data for loop");
+            for (let [key, value] of formData.entries()) {
+              console.log(
+                `${key}: ${value instanceof File ? value.name : value}`
+              );
+            }
+            console.log("form data for loop end");
 
-            // const responseData = await response.json();
-            const { result } = response;
-            setResultVideosrccontext(
-              `https://d1yt4919vxgwb5.cloudfront.net/${result.VideoUploadedToS3Details.key}`
-            );
-            console.log("Server Response:", response);
-            console.log(
-              "Server Response result:",
-              result.VideoUploadedtoVideoMySqlDetails
-            );
-            console.log(
-              "Server Response result,VideoId:",
-              result.VideoUploadedtoVideoMySqlDetails.video_id
-            );
-
-            setResultVideosrc(
-              `https://d1yt4919vxgwb5.cloudfront.net/${result.VideoUploadedToS3Details.key}`
-            );
-
-            // console.log(` src:${resultVideosrccontext}`);
-            // onRecordingComplete(resultVideosrc);
-
-            // let state = {
-            //   resultVideosrc:`https://d1yt4919vxgwb5.cloudfront.net/${result.key}`, // Set a default value
-            // };
-
-            console.log(resultVideosrc);
-            if (response.success) {
-              console.log(`src:${resultVideosrccontext}`);
-              if (typeof onRecordingCompleteAndGettingVideoId === "function") {
-                try {
-                  console.log(result.VideoUploadedtoVideoMySqlDetails);
-                  // result.VideoUploadedtoVideoMySqlDetails.video_id
-
-                  onRecordingCompleteAndGettingVideoId(
-                    result.VideoUploadedtoVideoMySqlDetails
-                  );
-                } catch (error) {
-                  console.error("Error doing the function:", error?.error);
-                }
-              } else {
-                console.error(
-                  "onRecordingCompleteAndGettingVideoId is not a function"
-                );
+            const response = await fetch(
+              "http://localhost:8080/api/uploadVideo",
+              // `http://localhost:8080/api/comments/createvideocomment/${videoId}`,
+              {
+                method: "POST",
+                body: formData,
               }
+            );
+            console.log("formData", formData);
 
-              toast("Video uploaded successfully");
+            console.log("responsesss:", response);
+            // const response = await fetchData({
+            //   url: "/uploadVideo",
+            //   method: "post",
+            //   body: formData,
+            // });
+            if (response.ok) {
+              const responseData = await response.json();
+              // const { result } = response;
+              const { result } = responseData;
+              console.log(
+                "key of video from s3",
+                result.VideoUploadedToS3Details.Key
+              );
+              setResultVideosrccontext(
+                `https://d1yt4919vxgwb5.cloudfront.net/${result.VideoUploadedToS3Details.Key}`
+              );
+              console.log("Server Response:", response);
+              console.log(
+                "Server Response result:",
+                result.VideoUploadedtoVideoMySqlDetails
+              );
+              console.log(
+                "Server Response result,VideoId:",
+                result.VideoUploadedtoVideoMySqlDetails.video_id
+              );
+
+              setResultVideosrc(
+                `https://d1yt4919vxgwb5.cloudfront.net/${result.VideoUploadedToS3Details.key}`
+              );
+
+              // console.log(` src:${resultVideosrccontext}`);
+              // onRecordingComplete(resultVideosrc);
+
+              // let state = {
+              //   resultVideosrc:`https://d1yt4919vxgwb5.cloudfront.net/${result.key}`, // Set a default value
+              // };
+
+              console.log(resultVideosrc);
+              if (responseData.success) {
+                console.log("inside response.success");
+                console.log(`src:${resultVideosrccontext}`);
+                if (
+                  typeof onRecordingCompleteAndGettingVideoId === "function"
+                ) {
+                  try {
+                    console.log(result.VideoUploadedtoVideoMySqlDetails);
+                    // result.VideoUploadedtoVideoMySqlDetails.video_id
+
+                    onRecordingCompleteAndGettingVideoId(
+                      result.VideoUploadedtoVideoMySqlDetails
+                    );
+                  } catch (error) {
+                    console.error("Error doing the function:", error?.error);
+                  }
+                } else {
+                  console.error(
+                    "onRecordingCompleteAndGettingVideoId is not a function"
+                  );
+                }
+
+                toast.success("Video uploaded successfully");
+              } else {
+                toast.error("Video upload failed becuase of response.sucess");
+              }
             } else {
-              toast("Video upload failed");
+              console.error(
+                "Failed to upload video becuase of no response.ok is there:",
+                response.statusText
+              );
+              toast.error("Video upload failed becuase of response");
             }
           } catch (error) {
             console.error("Error uploading video:", error?.error);
@@ -313,7 +338,6 @@ const VideoScreenRecorder = forwardRef((props, ref) => {
       }
       formData.append("typeComment", type);
 
-      
       // const response = await fetch(
       //   `http://localhost:8080/api/comments/createvideocomment/${videoId}`,
       //   {
@@ -331,10 +355,9 @@ const VideoScreenRecorder = forwardRef((props, ref) => {
         console.error(`Error uploading video:`);
       }
       // const responseData = await response.json();
-      
 
       const { result, success } = response;
-      
+
       if (
         result.VideoUploadedToS3Details &&
         result.VideoUploadedToS3Details.key
@@ -355,9 +378,7 @@ const VideoScreenRecorder = forwardRef((props, ref) => {
       //   resultVideosrc:`https://d1yt4919vxgwb5.cloudfront.net/${result.key}`, // Set a default value
       // };
 
-      
       if (success) {
-        
         toast("Video uploaded successfully");
       } else {
         toast("Video upload failed");
@@ -463,7 +484,7 @@ const VideoScreen = ({
   const handleRecordingComplete = (data) => {
     setRecordedVideoLink(data);
   };
-  
+
   return (
     <VideoScreenRecorder
       ref={playerRef}

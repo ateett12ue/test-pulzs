@@ -174,7 +174,7 @@ const Dashboard = () => {
 
     (videoScreenRecorderRef.current as any).stopRecording();
     // setIsNotRecording(true);
-    // console.log(`resultvideosrc in grandparent:${resultVideosrccontext}`);
+    console.log(`resultvideosrc in grandparent:${resultVideosrccontext}`);
     setMoveToRecordingCompleted(true);
   };
 
@@ -188,26 +188,22 @@ const Dashboard = () => {
   };
 
   const handleCameraAndAudioStopRecording = () => {
-
     (cameraAudioRecorderRef.current as any).stopRecording();
     // setIsNotRecording(true);
     setMoveToRecordingCompleted(true);
   };
 
   const handleScreenAndAudioStartRecording = () => {
-
     (screenAudioRecorderRef.current as any).startRecording();
     setIsNotRecording(false);
   };
   const handleScreenAndAudioStopRecording = () => {
-
     (screenAudioRecorderRef.current as any).stopRecording();
     // setIsNotRecording(true);
     setMoveToRecordingCompleted(true);
   };
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
-    
   };
 
   const handleDescriptionChange = (event) => {
@@ -217,28 +213,23 @@ const Dashboard = () => {
   const handleSelectedUsersChange = (users: UserType[]) => {
     // Handle the selected users in the parent component
     setSelectedUsers(users);
-    
+
     setSelectedUsers((prevUsers) => {
-      
       return users; // Set the state to the new users
     });
   };
   const handleUsers = () => {
     // Handle the selected users in the parent component
-    
   };
   const handleResultsrc = (src) => {
     // Handle the selected users in the parent component
-    
   };
 
   const handleRecordingCompleteAndGettingVideoId = (videoObject) => {
-    
     // setVideoIdFromVideoScreenRecorder(videoId);
     setVideoObjectFromRecorder(videoObject);
 
     // console.log("videoId in variable", videoIdFromVideoScreenRecorder);
-    
 
     // Now you can use the videoIdFromStopRecording as needed in your parent component
   };
@@ -266,7 +257,12 @@ const Dashboard = () => {
         setAllWorkspaces(workspaceData.workspaces);
 
         if (!selectWorkspace || selectWorkspace?.workspace_id == "") {
+          const defaultWorkspace = workspaceData.workspaces[0];
           setSelectWorkspace(workspaceData.workspaces[0]);
+          localStorage.setItem(
+            `selectedWorkspace_${userId}`,
+            JSON.stringify(defaultWorkspace)
+          );
         }
       } catch (ex) {
         console.log("ex from workspace", ex);
@@ -336,7 +332,19 @@ const Dashboard = () => {
       //     workspaceId: selectWorkspace?.workspace_id,
       //   }),
       // });
-      console.log("video sof", videoObjectFromRecorder)
+
+      if (!responseTime) {
+        // Check if any selected user has isToggleOn set to false
+        const anyToggleOff = selectedUsers.some(
+          (user) => !user.isToggleOn || user.isToggleOn === undefined
+        );
+        if (anyToggleOff) {
+          toast.error("Select the response time before sending Video");
+          return;
+        }
+      }
+
+      console.log("video sof", videoObjectFromRecorder);
       const response = await fetchData({
         url: "/sendVideo",
         method: "post",
@@ -360,7 +368,7 @@ const Dashboard = () => {
         // console.log("Video sent successfully!");
         // const data = await response.json();
         const recipients = response.recipients;
-        
+
         toast.success("Video Sent");
         socket.emit("sendVideo", {
           recipients,
@@ -382,7 +390,6 @@ const Dashboard = () => {
     try {
       if (session) {
         const userId = session?.user.id;
-        
 
         // const response = await fetch(
         //   `http://localhost:8080/api/getvideos/${session?.user.id}/${selectWorkspace?.workspace_id}`
@@ -394,7 +401,7 @@ const Dashboard = () => {
           body: null,
         });
         // const data = await response.json();
-        // console.log("user videos in db", data);
+        console.log("user videos in db", response);
         setUserVideos(response);
       } else {
         console.error("No active session");
@@ -498,6 +505,17 @@ const Dashboard = () => {
   // const handleButtonClick = () => {
   //   setIsSidebarOpen(true);
   // };
+
+  const handleWorkspaceChange = (workspace: workspace) => {
+    setSelectWorkspace(workspace);
+    if (userId) {
+      localStorage.setItem(
+        `selectedWorkspace_${userId}`,
+        JSON.stringify(workspace)
+      );
+    }
+  };
+
   useEffect(() => {
     if (status === "authenticated") {
       fetchUserVideos();
@@ -506,7 +524,7 @@ const Dashboard = () => {
 
     if (userId) {
       fetchRecievedVideos();
-      fetchAllWorkspace();
+      // fetchAllWorkspace();
     }
     // Listener for room creation and receiving video object
     socket.on("roomCreated", (room) => {
@@ -514,7 +532,6 @@ const Dashboard = () => {
     });
 
     socket.on("receiveVideo", (videoObjectFromRecorder) => {
-      
       // Handle received video object
     });
   }, [session, userId, socket]);
@@ -522,13 +539,26 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (userId) {
-      
       fetchAllWorkspace();
       fetchUserVideos();
       fetchRecievedVideos();
     }
   }, [selectWorkspace]);
-  
+
+  useEffect(() => {
+    if (userId) {
+      // Check localStorage for saved workspace on component mount
+      const savedWorkspace = localStorage.getItem(
+        `selectedWorkspace_${userId}`
+      );
+      console.log("savedWorkspace:", savedWorkspace);
+
+      if (savedWorkspace) {
+        setSelectWorkspace(JSON.parse(savedWorkspace));
+      }
+      // fetchAllWorkspace();
+    }
+  }, [userId, session]);
 
   return (
     <div className="bg-slate-100 h-screen  w-screen flex">
@@ -557,12 +587,12 @@ const Dashboard = () => {
       </button>
       <div
         id="default-sidebar"
-        className="h-screen bg-gray-200 w-1/4 lg:w-2/12 flex justify-between flex-col "
+        className="h-full bg-gray-200 w-1/4 lg:w-2/12 flex justify-between flex-col "
       >
         <h1 className="mt-2 mb-[-50px] flex justify-start ml-8 font-bold text-xl">
-          <a href="#">pulze</a>
+          <a href="/dashboard">pulze</a>
         </h1>
-        <div className="flex flex-col justify-center">
+        <div className="flex flex-col justify-center ">
           <Dialog>
             <DialogTrigger asChild>
               <Button className="h-10 mx-4 mt-[-70px] bg-[#8645FF]  " size="lg">
@@ -1026,7 +1056,8 @@ const Dashboard = () => {
               selectedWorkspace={
                 selectWorkspace ? selectWorkspace : allWorkspaces[0]
               }
-              setSelectedWorkspace={setSelectWorkspace}
+              // setSelectedWorkspace={setSelectWorkspace}
+              setSelectedWorkspace={handleWorkspaceChange}
             />
           </div>
         </div>
