@@ -165,7 +165,7 @@ declare module "next-auth" {
   }
 }
 
-export const authOptions: AuthOptions = {
+const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GithubProvider({
@@ -192,7 +192,6 @@ export const authOptions: AuthOptions = {
           | Record<"email" | "password" | "phonenumber", string>
           | undefined
       ): Promise<User | null> {
-        
         if (!credentials) {
           throw new Error("Credentials are missing");
         }
@@ -200,7 +199,6 @@ export const authOptions: AuthOptions = {
         if (!credentials.email || !credentials.password) {
           throw new Error("Please enter an email and password");
         }
-        
 
         // // check to see if user exists
         const user = await prisma.user.findUnique({
@@ -208,7 +206,6 @@ export const authOptions: AuthOptions = {
             email: credentials.email,
           },
         });
-        
 
         if (!user) {
           throw new Error("No user found");
@@ -246,8 +243,6 @@ export const authOptions: AuthOptions = {
         //   },
         // };
 
-        
-
         return user;
         // Add other fields as needed
       },
@@ -263,7 +258,6 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async jwt({ token, user, session }) {
       // the processing of JWT occurs before handling sessions.
-      
 
       if (user) {
         // token.accessToken = user.accessToken;
@@ -280,8 +274,6 @@ export const authOptions: AuthOptions = {
 
     //  The session receives the token from JWT
     async session({ session, token, user }) {
-      
-
       return {
         ...session,
         user: {
