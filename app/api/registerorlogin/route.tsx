@@ -12,9 +12,7 @@ import { NextResponse } from "next/server";
 // Load environment variables
 // config();
 
-export async function POST(request) {
-  
-
+export async function POST(request: any) {
   // console.log(req.body);
 
   const body = await request.json();
@@ -31,20 +29,17 @@ export async function POST(request) {
     let user;
     try {
       user = await prisma.user.findUnique({ where: { email: email } });
-      
     } catch (error) {
       console.error("error to find user", error);
     }
 
     if (!user) {
-      
       // No user, registration will be done
       //   const hashedPassword = await bcrypt.hash(req.body.password, 10);
       const hashedPassword = await bcrypt.hash(password, 10);
       // console.log(hashedPassword);
 
       const name = email.split("@")[0];
-      
 
       //   await prisma.user.create({
       //     data:{
@@ -63,7 +58,6 @@ export async function POST(request) {
           phonenumber: phonenumber,
         },
       });
-      
 
       let workspace, workspaceMember;
       try {
@@ -81,7 +75,6 @@ export async function POST(request) {
             workspace_id: workspace.workspace_id,
           },
         });
-        
       } catch (error) {
         console.error("Error creating workspace:", error);
         return (
@@ -91,8 +84,6 @@ export async function POST(request) {
         );
       }
 
-      
-
       return NextResponse.json({
         message: "Registration Successful",
         User: oneUser,
@@ -101,26 +92,17 @@ export async function POST(request) {
         success: true,
       });
     } else {
-      
-
       if (user.password !== null) {
-        
-
         const isPasswordValid = await bcrypt.compare(password, user.password);
         // User exists, login will be done
-        
 
         if (isPasswordValid) {
-          
-
           return NextResponse.json({
             message: "Login Successful",
             // token: token,
             success: true,
           });
         } else {
-          
-
           return NextResponse.json({
             message: "Incorrect password",
             ok: false,

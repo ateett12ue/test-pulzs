@@ -12,9 +12,7 @@ import { NextResponse } from "next/server";
 // Load environment variables
 // config();
 
-export async function POST(request) {
-  
-
+export async function POST(request: any) {
   // console.log(req.body);
 
   const body = await request.json();
@@ -31,32 +29,22 @@ export async function POST(request) {
     let user;
     try {
       user = await prisma.user.findUnique({ where: { email: email } });
-      
     } catch (error) {
       console.error("error to find user", error);
     }
 
     if (user) {
-      
-
       if (user.password !== null) {
-      
-
         const isPasswordValid = await bcrypt.compare(password, user.password);
         // User exists, login will be done
-        
 
         if (isPasswordValid) {
-          
-
           return NextResponse.json({
             message: "Login Successful",
             // token: token,
             success: true,
           });
         } else {
-          
-
           return NextResponse.json({
             message: "Incorrect password",
             // ok: false,
