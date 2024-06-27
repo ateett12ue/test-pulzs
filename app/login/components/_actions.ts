@@ -11,9 +11,6 @@ const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN || "";
 const DOMAIN = process.env.DOMAIN || "localhost:3000";
 const PROTOCOL = process.env.NODE_ENV === "production" ? "https" : "http";
 
-console.log("mailgun domain", MAILGUN_DOMAIN);
-console.log("mailgun api", API_KEY);
-
 const mailgun = new Mailgun(formData);
 const client = mailgun.client({
   username: "api",

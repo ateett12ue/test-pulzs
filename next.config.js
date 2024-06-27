@@ -6,6 +6,15 @@ module.exports = {
   experimental: {
     
   },
+  env: {
+    DATABASE_URL: process.env.DATABASE_URL,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    SECRET_KEY: process.env.SECRET_KEY,
+    MAILGUN_DOMAIN: process.env.MAILGUN_DOMAIN,
+    MAILGUN_API_KEY: process.env.MAILGUN_API_KEY,
+    BACKEND_IP_ADDRESS: process.env.BACKEND_IP_ADDRESS
+  },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.

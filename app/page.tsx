@@ -8,7 +8,6 @@ const Page = () => {
   useEffect(() => {
     redirect("/home");
   }, []);
-
   return (
     <>
       <Head>
