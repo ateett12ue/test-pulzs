@@ -193,16 +193,16 @@ const schema = z.object({
       message: "Phone number should contain only digits",
     }),
 });
-async function validateInput(data) {
+async function validateInput(data:any) {
   try {
     await schema.parseAsync(data);
     return null;
-  } catch (error) {
+  } catch (error:any) {
     if(error.length >0)
     {
         return error
-        .map((e) => e.message)
-        .filter((message) => !message.includes("Required"));
+        .map((e:any) => e.message)
+        .filter((message:any) => !message.includes("Required"));
     }
     
   }
@@ -223,14 +223,14 @@ export function UserAuthForm() {
   // const [token, setToken] = useState(localStorage.getItem("token") || "");
   // const [login, { data }] = useMutation(LOGIN_MUTATION);
   const router = useRouter();
-  const validateField = async (name, value) => {
+  const validateField = async (name:any, value:any) => {
     const validationResult = await validateInput({ [name]: value });
     setErrors((prevErrors) => ({
       ...prevErrors,
       [name]: validationResult ? validationResult.join(",") : "",
     }));
   };
-  const registerUser = async (e) => {
+  const registerUser = async (e:any) => {
     e.preventDefault();
     const emailError = await validateInput({ email });
     const passwordError = await validateInput({ password });
@@ -238,15 +238,15 @@ export function UserAuthForm() {
 
     setErrors({
       email: emailError
-        ? emailError.find((e) => e.includes("Invalid email"))
+        ? emailError.find((e:any) => e.includes("Invalid email"))
         : null,
       password: passwordError
-        ? passwordError.find((e) =>
+        ? passwordError.find((e:any) =>
             e.includes("Password should be at least 6 characters")
           )
         : null,
       phonenumber: phoneNumberError
-        ? phoneNumberError.find((e) =>
+        ? phoneNumberError.find((e:any) =>
             e.includes("Phone number should contain only digits")
           )
         : null,
@@ -292,7 +292,7 @@ export function UserAuthForm() {
         console.log()
         toast.error(`${response.message}`);
       }
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error during registration:", error?.error);
       toast.error(error?.error);
       setIsLoading(false);

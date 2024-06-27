@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "../../components/button";
 import { AvatarDemo } from "../../dashboard/components/avatar";
 import {
@@ -119,7 +121,7 @@ export function WorkSpaceSet(props: WorkspaceProps) {
         console.error("Error response:", data.error);
         toast("error", data.error);
       }
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error sending video:", error);
       toast("error", error?.error);
     }
@@ -165,7 +167,7 @@ export function WorkSpaceSet(props: WorkspaceProps) {
         toast.error(response?.error);
       }
       setModelOpen(false);
-    } catch (error) {
+    } catch (error:any) {
       console.log("Error leaving Workspace", error);
       // toast("Error leaving Workspace");
       toast.error(error?.error);
@@ -212,7 +214,7 @@ export function WorkSpaceSet(props: WorkspaceProps) {
         toast(response?.error);
       }
       setModelOpen(false);
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error deleting Workspace", error);
       toast("Error deleting Workspace", error?.error);
     }

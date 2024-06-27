@@ -19,7 +19,7 @@ const ScreenAndAudioRecorder = dynamic(
 );
 
 // import client from "../components/apolloClient";
-import { ApolloProvider } from "@apollo/client";
+// import { ApolloProvider } from "@apollo/client";
 // import HelloMessage from "../components/HelloMessage.jsx";
 // import {
 //   Dialog,
@@ -54,7 +54,7 @@ const MyPage = () => {
   const [value, setValue] = useState<Option>();
 
   // Function to set the recorded data
-  const handleRecordingComplete = (data) => {
+  const handleRecordingComplete = (data:any) => {
     setRecordedVideoLink(data);
   };
   const FRAMEWORKS = [
@@ -116,7 +116,7 @@ const MyPage = () => {
       </div>
       <div>
         <CommandMenu />
-        <DatePickerWithPresets />
+        {/* <DatePickerWithPresets /> */}
         {/* <VideoAndAudioRecorder />
         <ScreenAndAudioRecorder /> */}
       </div>

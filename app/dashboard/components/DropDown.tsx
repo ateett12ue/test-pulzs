@@ -24,7 +24,6 @@ import {
 } from "lucide-react";
 import { FaCheck } from "react-icons/fa6";
 import { Button } from "@/app/components/button";
-import { WorkSpaceSelectingDropDown } from "./WorkspaceSelectingDropDown";
 // import { DropdownMenuShortcut } from "@/app/components/dropdown";
 import {
   DropdownMenu,

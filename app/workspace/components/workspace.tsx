@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { Input } from "../../components/input";
 import { Button } from "../../components/button";
@@ -5,7 +7,7 @@ import { Button } from "../../components/button";
 const WorkspaceSettingsPopup = () => {
   const [activeTab, setActiveTab] = useState("general");
 
-  const toggleTab = (tab) => {
+  const toggleTab = (tab:any) => {
     setActiveTab(tab);
   };
 

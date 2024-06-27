@@ -15,7 +15,7 @@ import AutoComplete from "./Autocomplete";
 
 import { User as UserType } from "../../../types";
 
-export const ReadyToShareDialog = (videosrc) => {
+export const ReadyToShareDialog = (videosrc:any) => {
   console.log("videosrc in ReadyShrae", videosrc.videosrc);
 
   const [selectedUsers, setSelectedUsers] = useState<UserType[]>([]);
@@ -33,16 +33,16 @@ export const ReadyToShareDialog = (videosrc) => {
     });
   };
 
-  const handleTitleChange = (event) => {
+  const handleTitleChange = (event:any) => {
     setTitle(event.target.value);
     console.log(title);
   };
 
-  const handleDescriptionChange = (event) => {
+  const handleDescriptionChange = (event:any) => {
     setDescription(event.target.value);
   };
 
-  const handleChildClick = (e) => {
+  const handleChildClick = (e:any) => {
     // Prevent event propagation
     e.stopPropagation();
 
@@ -52,7 +52,7 @@ export const ReadyToShareDialog = (videosrc) => {
     // console.log('Dialog opened!');
   };
 
-  const handleCloseButtonClick = (e) => {
+  const handleCloseButtonClick = (e:any) => {
     e.stopPropagation();
     // Add logic to close the dialog here
   };

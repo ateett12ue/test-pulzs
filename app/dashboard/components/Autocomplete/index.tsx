@@ -37,7 +37,7 @@ export interface AutoCompleteProps {
   setDateFieldState: Dispatch<SetStateAction<DateFieldState | null>>;
   dateFieldState: DateFieldState | null;
   formattedHours: String;
-  selectWorkspace;
+  selectWorkspace: any;
 }
 
 export default function AutoComplete({

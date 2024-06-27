@@ -51,7 +51,7 @@ export function Inviting(props: WorkspaceProps) {
         console.error("invite not send", response);
         toast("invite send unsuccessfully", response);
       }
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error sending video:", error);
       toast.error(error?.error);
     }

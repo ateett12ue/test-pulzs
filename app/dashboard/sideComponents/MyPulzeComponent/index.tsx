@@ -39,14 +39,14 @@ const ActivityPage = ({
   receivedVideos: initialReceivedVideos,
   handleDeleteVideo,
   workspace,
-}) => {
+}:any) => {
   const { data: session, status } = useSession();
   const [currentTime, setCurrentTime] = useState(new Date());
   const user_id = session?.user.id;
   let filteredUserVideos;
   if (userVideos) {
     console.log("userVideos in ACtivity Page:", userVideos);
-    filteredUserVideos = userVideos.filter((video) => {
+    filteredUserVideos = userVideos.filter((video:any) => {
       const responseTimeFromVideo = video.sendVideos?.[0]?.responseTime;
 
       if (responseTimeFromVideo) {
@@ -60,14 +60,14 @@ const ActivityPage = ({
     });
   }
 
-  const recievedVideos = initialReceivedVideos.map((video) => {
+  const recievedVideos = initialReceivedVideos.map((video:any) => {
     const responseTime = new Date(video.sendVideo.responseTime);
     console.log("recieved responseTime unfiltered", responseTime);
     // console.log("recieved responseTime unfiltered currentTime", currentTime);
   });
 
   const filteredReceivedVideos = initialReceivedVideos.filter(
-    (recievedvideo) => {
+    (recievedvideo:any) => {
       const responseTimeFromVideo = recievedvideo.sendVideo.responseTime;
       const responseTime = new Date(
         responseTimeFromVideo.toLocaleString("en-US", {
@@ -110,7 +110,7 @@ const ActivityPage = ({
             <>
               <div>Send Pulzes</div>
               {/* {userVideos.map((video) => { */}
-              {filteredUserVideos.map((video) => {
+              {filteredUserVideos.map((video:any) => {
                 const recipients = video?.sendVideos?.[0]?.recipients;
 
                 if (recipients && recipients.length > 0) {
@@ -138,7 +138,7 @@ const ActivityPage = ({
               <div>Recieve Pulzes</div>
 
               {/* {receivedVideos.map((recievedvideo) => { */}
-              {filteredReceivedVideos.map((recievedvideo) => {
+              {filteredReceivedVideos.map((recievedvideo:any) => {
                 const responseTime = new Date(
                   recievedvideo.sendVideo.responseTime
                 );
@@ -175,7 +175,7 @@ const ActivityPage = ({
         <div className="flex flex-col mx-3 my-6">
           Closed
           {/* {receivedVideos.map((recievedvideo) => { */}
-          {initialReceivedVideos.map((recievedvideo) => {
+          {initialReceivedVideos.map((recievedvideo:any) => {
             const responseTime = new Date(recievedvideo.sendVideo.responseTime);
             if (currentTime > responseTime) {
               return (
@@ -194,7 +194,7 @@ const ActivityPage = ({
               );
             }
           })}
-          {userVideos.map((video) => {
+          {userVideos.map((video:any) => {
             const recipients = video?.sendVideos?.[0]?.recipients;
 
             if (recipients && recipients.length > 0) {

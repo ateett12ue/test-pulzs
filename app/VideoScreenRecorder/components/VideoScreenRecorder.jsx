@@ -1,3 +1,4 @@
+"use client";
 // import React, { useEffect, useRef,useState } from "react";
 // import RecordRTC from "recordrtc";
 // import {  } from "recordrtc";
@@ -466,7 +467,7 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import RecordRTC from "recordrtc";
-import { useMutation, gql } from "@apollo/client";
+// import { useMutation, gql } from "@apollo/client";
 
 //Upload!
 // const UploadFileDocument = gql`
@@ -477,214 +478,214 @@ import { useMutation, gql } from "@apollo/client";
 //   }
 // `;
 
-const UploadFileDocument = gql`
-  mutation fileUpload($file: Upload!) {
-    fileUpload(file: $file) {
-      Location
-    }
-  }
-`;
+// const UploadFileDocument = gql`
+//   mutation fileUpload($file: Upload!) {
+//     fileUpload(file: $file) {
+//       Location
+//     }
+//   }
+// `;
 
-const VideoScreenRecorder = () => {
-  const videoElement = useRef(null);
-  const recorder = useRef(null);
-  const videoBlob = useRef(typeof Blob);
-  const [uploadVideo, result] = useMutation(UploadFileDocument);
-  const { data, error } = result;
-  useEffect(() => {
-    const startRecordingButton = document.getElementById("btn-start-recording");
-    const stopRecordingButton = document.getElementById("btn-stop-recording");
+// const VideoScreenRecorder = () => {
+//   const videoElement = useRef(null);
+//   const recorder = useRef(null);
+//   const videoBlob = useRef(typeof Blob);
+//   // const [uploadVideo, result] = useMutation(UploadFileDocument);
+//   const { data, error } = result;
+//   useEffect(() => {
+//     const startRecordingButton = document.getElementById("btn-start-recording");
+//     const stopRecordingButton = document.getElementById("btn-stop-recording");
 
-    const sendMessage = document.getElementById("send-message");
+//     const sendMessage = document.getElementById("send-message");
 
-    if (!navigator.getDisplayMedia && !navigator.mediaDevices.getDisplayMedia) {
-      const error = "Your browser does NOT support the getDisplayMedia API.";
-      sendMessage.innerHTML = error;
-      videoElement.current.style.display = "none";
-      startRecordingButton.style.display = "none";
-      stopRecordingButton.style.display = "none";
-      throw new Error(error);
-    }
+//     if (!navigator.getDisplayMedia && !navigator.mediaDevices.getDisplayMedia) {
+//       const error = "Your browser does NOT support the getDisplayMedia API.";
+//       sendMessage.innerHTML = error;
+//       videoElement.current.style.display = "none";
+//       startRecordingButton.style.display = "none";
+//       stopRecordingButton.style.display = "none";
+//       throw new Error(error);
+//     }
 
-    let screenStream, cameraStream;
+//     let screenStream, cameraStream;
 
-    const invokeGetDisplayMedia = async () => {
-      const displayMediaConstraints = {
-        video: true,
-      };
+//     const invokeGetDisplayMedia = async () => {
+//       const displayMediaConstraints = {
+//         video: true,
+//       };
 
-      try {
-        if (navigator.mediaDevices.getDisplayMedia) {
-          screenStream = await navigator.mediaDevices.getDisplayMedia(
-            displayMediaConstraints
-          );
-        } else {
-          screenStream = await navigator.getDisplayMedia(
-            displayMediaConstraints
-          );
-        }
-      } catch (error) {
-        console.error(error?.error);
-        alert(
-          "Unable to capture your screen. Please check console logs.\n" + error
-        );
-      }
-    };
+//       try {
+//         if (navigator.mediaDevices.getDisplayMedia) {
+//           screenStream = await navigator.mediaDevices.getDisplayMedia(
+//             displayMediaConstraints
+//           );
+//         } else {
+//           screenStream = await navigator.getDisplayMedia(
+//             displayMediaConstraints
+//           );
+//         }
+//       } catch (error) {
+//         console.error(error?.error);
+//         alert(
+//           "Unable to capture your screen. Please check console logs.\n" + error
+//         );
+//       }
+//     };
 
-    const captureCamera = async () => {
-      try {
-        cameraStream = await navigator.mediaDevices.getUserMedia({
-          audio: true,
-          video: true,
-        });
-      } catch (error) {
-        console.error(error?.error);
-      }
-    };
+//     const captureCamera = async () => {
+//       try {
+//         cameraStream = await navigator.mediaDevices.getUserMedia({
+//           audio: true,
+//           video: true,
+//         });
+//       } catch (error) {
+//         console.error(error?.error);
+//       }
+//     };
 
-    const keepStreamActive = (stream) => {
-      const newVideo = document.createElement("video");
-      newVideo.muted = true;
-      newVideo.srcObject = stream;
-      newVideo.style.display = "none";
-      (document.body || document.documentElement).appendChild(newVideo);
-    };
+//     const keepStreamActive = (stream) => {
+//       const newVideo = document.createElement("video");
+//       newVideo.muted = true;
+//       newVideo.srcObject = stream;
+//       newVideo.style.display = "none";
+//       (document.body || document.documentElement).appendChild(newVideo);
+//     };
 
-    const startRecording = async () => {
-      await invokeGetDisplayMedia();
-      await captureCamera();
+//     const startRecording = async () => {
+//       await invokeGetDisplayMedia();
+//       await captureCamera();
 
-      keepStreamActive(screenStream);
-      keepStreamActive(cameraStream);
+//       keepStreamActive(screenStream);
+//       keepStreamActive(cameraStream);
 
-      screenStream?.width = window.screen?.width;
-      screenStream?.height = window.screen?.height;
-      screenStream?.fullcanvas = true;
+//       screenStream?.width = window.screen?.width;
+//       screenStream?.height = window.screen?.height;
+//       screenStream?.fullcanvas = true;
 
-      cameraStream?.width = 320;
-      cameraStream?.height = 240;
-      cameraStream?.top = screenStream?.height - cameraStream?.height ?? 0;
-      cameraStream?.left = screenStream?.width - cameraStream?.width ?? 0;
+//       cameraStream?.width = 320;
+//       cameraStream?.height = 240;
+//       cameraStream?.top = screenStream?.height - cameraStream?.height ?? 0;
+//       cameraStream?.left = screenStream?.width - cameraStream?.width ?? 0;
 
-      recorder.current = RecordRTC([screenStream, cameraStream], {
-        type: "video",
-        mimeType: "video/webm",
-        previewStream: (s) => {
-          videoElement.current.muted = true;
-          videoElement.current.srcObject = s;
-        },
-      });
+//       recorder.current = RecordRTC([screenStream, cameraStream], {
+//         type: "video",
+//         mimeType: "video/webm",
+//         previewStream: (s) => {
+//           videoElement.current.muted = true;
+//           videoElement.current.srcObject = s;
+//         },
+//       });
 
-      recorder.current.startRecording();
-    };
+//       recorder.current.startRecording();
+//     };
 
-    const stopRecording = () => {
-      if (recorder.current) {
-        recorder.current.stopRecording(async () => {
-          const blob = recorder.current.getBlob();
-          console.log(recorder.current);
-          // videoBlob.current = recorder.current.getBlob();
+//     const stopRecording = () => {
+//       if (recorder.current) {
+//         recorder.current.stopRecording(async () => {
+//           const blob = recorder.current.getBlob();
+//           console.log(recorder.current);
+//           // videoBlob.current = recorder.current.getBlob();
 
-          videoElement.current.srcObject = null;
-          videoElement.current.src = URL.createObjectURL(blob);
-          // videoElement.current.src = URL.createObjectURL(videoBlob.current);
+//           videoElement.current.srcObject = null;
+//           videoElement.current.src = URL.createObjectURL(blob);
+//           // videoElement.current.src = URL.createObjectURL(videoBlob.current);
 
-          videoElement.current.muted = false;
+//           videoElement.current.muted = false;
 
-          if (screenStream && screenStream.getTracks) {
-            if (screenStream.getTracks) {
-              screenStream.getTracks().forEach((track) => {
-                track.stop();
-              });
-            }
-          } else {
-            toast.error("error screen stream");
-          }
+//           if (screenStream && screenStream.getTracks) {
+//             if (screenStream.getTracks) {
+//               screenStream.getTracks().forEach((track) => {
+//                 track.stop();
+//               });
+//             }
+//           } else {
+//             toast.error("error screen stream");
+//           }
 
-          if (cameraStream && cameraStream.getTracks) {
-            if (cameraStream.getTracks) {
-              cameraStream.getTracks().forEach((track) => {
-                track.stop();
-              });
-            }
-          }
-          function blobToFile(theBlob, fileName) {
-            //A Blob() is almost a File() - it's just missing the two properties below which we will add
-            theBlob.lastModifiedDate = new Date();
-            theBlob.name = fileName;
-            return theBlob;
-          }
+//           if (cameraStream && cameraStream.getTracks) {
+//             if (cameraStream.getTracks) {
+//               cameraStream.getTracks().forEach((track) => {
+//                 track.stop();
+//               });
+//             }
+//           }
+//           function blobToFile(theBlob, fileName) {
+//             //A Blob() is almost a File() - it's just missing the two properties below which we will add
+//             theBlob.lastModifiedDate = new Date();
+//             theBlob.name = fileName;
+//             return theBlob;
+//           }
 
-          //     const sampleText = "This is a sample text file for testing purposes.";
+//           //     const sampleText = "This is a sample text file for testing purposes.";
 
-          // // Create a Blob from the sample text
-          // const blobb = new Blob([sampleText], { type: "text/plain" });
+//           // // Create a Blob from the sample text
+//           // const blobb = new Blob([sampleText], { type: "text/plain" });
 
-          // recorder.current.destroy();
+//           // recorder.current.destroy();
 
-          const videoFile = new File([blob], "recorded-video3.mp4", {
-            type: "video/mp4",
-          });
-          // const videoFile = blobToFile(blob,"recorded-video.webm")
-          console.log(videoFile);
-          try {
-            const response = await uploadVideo({
-              variables: {
-                // file: new File([blob], "recorded-video.webm"),
-                file: videoFile,
-              },
-            });
+//           const videoFile = new File([blob], "recorded-video3.mp4", {
+//             type: "video/mp4",
+//           });
+//           // const videoFile = blobToFile(blob,"recorded-video.webm")
+//           console.log(videoFile);
+//           // try {
+//           //   const response = await uploadVideo({
+//           //     variables: {
+//           //       // file: new File([blob], "recorded-video.webm"),
+//           //       file: videoFile,
+//           //     },
+//           //   });
             
-            if (response.data.fileUpload) {
-              alert(
-                "Video uploaded successfully",
-                response.data.fileUpload.Location
-              );
-            } else {
-              alert("Video upload failed");
-            }
-          } catch (error) {
-            console.error("Error uploading video:", error?.error);
-          }
-        });
-      }
-    };
+//           //   if (response.data.fileUpload) {
+//           //     alert(
+//           //       "Video uploaded successfully",
+//           //       response.data.fileUpload.Location
+//           //     );
+//           //   } else {
+//           //     alert("Video upload failed");
+//           //   }
+//           // } catch (error) {
+//           //   console.error("Error uploading video:", error?.error);
+//           // }
+//         });
+//       }
+//     };
 
-    startRecordingButton.addEventListener("click", startRecording);
-    stopRecordingButton.addEventListener("click", stopRecording);
+//     startRecordingButton.addEventListener("click", startRecording);
+//     stopRecordingButton.addEventListener("click", stopRecording);
 
-    return () => {
-      if (recorder.current) {
-        recorder.current.destroy();
-      }
-    };
-  }, [uploadVideo]);
+//     return () => {
+//       if (recorder.current) {
+//         recorder.current.destroy();
+//       }
+//     };
+//   }, [uploadVideo]);
 
-  return (
-    <div>
-      <video
-        ref={videoElement}
-        controls
-        autoPlay
-        playsInline
-        style={{ width: "40%" }}
-      ></video>
-      <button id="btn-start-recording">Start Recording</button>
-      <button id="btn-stop-recording">Stop Recording</button>
-      {/* <button onClick={()=>{
-         uploadVideo({
-          variables: {
-            file: "hello upload BInu baiju",
-          },
-        });
-      }}>response</button> */}
-      {error && (
-        <pre>
-          <code>{error.message}</code>
-        </pre>
-      )}
-    </div>
-  );
-};
+//   return (
+//     <div>
+//       <video
+//         ref={videoElement}
+//         controls
+//         autoPlay
+//         playsInline
+//         style={{ width: "40%" }}
+//       ></video>
+//       <button id="btn-start-recording">Start Recording</button>
+//       <button id="btn-stop-recording">Stop Recording</button>
+//       {/* <button onClick={()=>{
+//          uploadVideo({
+//           variables: {
+//             file: "hello upload BInu baiju",
+//           },
+//         });
+//       }}>response</button> */}
+//       {error && (
+//         <pre>
+//           <code>{error.message}</code>
+//         </pre>
+//       )}
+//     </div>
+//   );
+// };
 
-export default VideoScreenRecorder;
+// export default VideoScreenRecorder;

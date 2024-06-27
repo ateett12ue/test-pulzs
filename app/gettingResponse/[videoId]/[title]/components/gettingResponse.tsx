@@ -151,7 +151,7 @@ const GettinResponse = () => {
   const opendStatus = "Opened";
   const respondedStatus = "Responded";
   const { data: session, status } = useSession();
-  let userId: string;
+  let userId: string = "";
   let userName;
   let image;
   if (session) {
@@ -160,7 +160,6 @@ const GettinResponse = () => {
     image = session?.user?.image;
     // setUserId(session?.user?.id);
   }
-  console.log("userId", userId);
 
   const [hoveredMainCommentId, setHoveredMainCommentId] = useState(null);
   const [hoveredReplyCommentId, setHoveredReplyCommentId] = useState(null);
@@ -194,12 +193,12 @@ const GettinResponse = () => {
     // setIsTextareaFocused(false);
   };
 
-  const handleTopCommentTextareaChange = (event) => {
+  const handleTopCommentTextareaChange = (event:any) => {
     setTopCommentTextareaValue(event.target.value);
     console.log(topcommenttextareaValue);
   };
 
-  const handleReplyCommentTextareaChange = (event) => {
+  const handleReplyCommentTextareaChange = (event:any) => {
     setReplyCommentTextareaValue(event.target.value);
     console.log(replycommenttextareaValue);
   };
@@ -213,7 +212,7 @@ const GettinResponse = () => {
     return `${Math.floor(time / 60)}:${Math.floor(time % 60)}`;
   };
 
-  const handleCommentId = (commentId) => {
+  const handleCommentId = (commentId:any) => {
     setActiveCommentId(commentId);
   };
 
@@ -234,7 +233,7 @@ const GettinResponse = () => {
       }
       // const data = await response.json();
       const parentComments = response.comments.filter(
-        (comment) => !comment.parentCommentId
+        (comment:any) => !comment.parentCommentId
       );
       console.log("parentComments:", parentComments);
       // setComments(data.comments);
@@ -252,7 +251,7 @@ const GettinResponse = () => {
       //   // Perform the comparison
       //   return dateA.getTime() - dateB.getTime();
       // });
-      const sortComments = (comments: Comment[]) => {
+      const sortComments : any = (comments: Comment[]) => {
         return comments
           .sort((a, b) => {
             const dateA = new Date(a.createdAt);
@@ -267,8 +266,6 @@ const GettinResponse = () => {
       const sortedParentComments = sortComments(parentComments);
 
       setComments(sortedParentComments);
-
-      console.log("Received data from API:", data.comments);
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
@@ -300,14 +297,14 @@ const GettinResponse = () => {
     console.log(`set replytype:${typeReplyComment}`);
   }
 
-  const topLevelCommentRequestBody = {
+  const topLevelCommentRequestBody:any = {
     content: topcommenttextareaValue,
     userId,
     timeStamp: isCheckboxChecked ? formatTime(currentTime ?? 0) : null,
     parentCommentId: null as string | null,
     type: typeComment, // Adjust the type based on your requirements
   };
-  let replyCommentRequestBody = {
+  let replyCommentRequestBody:any = {
     content: replycommenttextareaValue,
     userId,
     timeStamp: isCheckboxChecked ? formatTime(currentTime ?? 0) : null,
@@ -383,7 +380,7 @@ const GettinResponse = () => {
     await fetchComments();
   };
 
-  const handleChange = (isChecked) => {
+  const handleChange = (isChecked:any) => {
     // Your custom logic here
     console.log("Checkbox is checked:", isChecked);
     setIsCheckboxChecked(isChecked);
@@ -401,16 +398,16 @@ const GettinResponse = () => {
   };
 
   //functions used for recording
-  const handleRecordingComplete = (data) => {
+  const handleRecordingComplete = (data:any) => {
     setRecordedVideoLink(data);
   };
 
-  const handleToggle = (event) => {
+  const handleToggle = (event:any) => {
     event.preventDefault();
     setIsIcon1Visible(!isIcon1Visible);
   };
 
-  const handleStartRecording = (event) => {
+  const handleStartRecording = (event:any) => {
     event.preventDefault();
     setMainCommentPostButtonShow(false);
     setReplyCommentPostButtonShow(false);
@@ -422,7 +419,7 @@ const GettinResponse = () => {
     setIsNotRecording(false);
   };
 
-  const handleStopRecording = async (event) => {
+  const handleStopRecording = async (event:any) => {
     event.preventDefault();
 
     console.log("hadleStartRecord111");
@@ -532,7 +529,7 @@ const GettinResponse = () => {
       console.error("Error updating recipient status:", error);
     }
   };
-  const handleCreateVideoComment = async (event, parentCommentId?: string) => {
+  const handleCreateVideoComment = async (event: any, parentCommentId?: string) => {
     event.preventDefault();
 
     console.log("called top level video comment creation");
@@ -592,7 +589,7 @@ const GettinResponse = () => {
     await fetchComments();
   };
 
-  const handlePostButton = (selectedTab) => {
+  const handlePostButton = (selectedTab:any) => {
     // if (newValue === "screen") {
     // // Call your function here
     // setPostButtonShow(false);
@@ -601,20 +598,20 @@ const GettinResponse = () => {
     // }
   };
 
-  const handleTopLevelCommentTabsValue = (value) => {
+  const handleTopLevelCommentTabsValue = (value:any) => {
     setTopLevelCommentTabsValue(value);
   };
-  const handleReplyCommentTabsValue = (value) => {
+  const handleReplyCommentTabsValue = (value:any) => {
     console.log("handleReplyCommentTabsValue", value);
 
     setReplyCommentTabsValue(value);
     // console.log(replyCommentTabsValue);
   };
 
-  const handleTimeStampClick = (timeStamp) => {
+  const handleTimeStampClick = (timeStamp:any) => {
     setSelectedTimeStamp(timeStamp);
   };
-  const formattedDate = (unformattedTime) => {
+  const formattedDate = (unformattedTime:any) => {
     const parsedDate = parseISO(unformattedTime);
     const formattedDate = isToday(parsedDate)
       ? formatDistanceToNow(parsedDate, { addSuffix: true })
@@ -635,7 +632,7 @@ const GettinResponse = () => {
   };
 
   // Function to handle hover over a comment
-  const handleMainCommentHover = (commentId) => {
+  const handleMainCommentHover = (commentId:any) => {
     console.log("commentId from handleMainCommentHover", commentId);
 
     setHoveredMainCommentId(commentId);
@@ -646,7 +643,7 @@ const GettinResponse = () => {
     setHoveredMainCommentId(null);
   };
 
-  const handleReplyCommentHover = (commentId) => {
+  const handleReplyCommentHover = (commentId:any) => {
     console.log("commentId from handleReplyCommentHover", commentId);
 
     setHoveredReplyCommentId(commentId);
@@ -657,7 +654,7 @@ const GettinResponse = () => {
     setHoveredReplyCommentId(null);
   };
 
-  const handleDeleteComment = async (commentId) => {
+  const handleDeleteComment = async (commentId:any) => {
     console.log("called handleDeleteCommment and replyCommendID:", commentId);
 
     try {
@@ -726,7 +723,7 @@ const GettinResponse = () => {
     }
 
     console.log("testing", videoId);
-  }, [pathname, videoId, userId, videoStatus]);
+  }, [pathname, videoId, userId, videoStatus] as any);
 
   return (
     <>

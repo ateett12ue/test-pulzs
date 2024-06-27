@@ -1,6 +1,7 @@
+"use client";
+
 import * as React from "react";
 //import { useMutation, useQuery, gql } from "@apollo/client";
-import { Metadata } from "next";
 //import Image from "next/image";
 //import Link from "next/link";
 import HomeHeader from "./components/homeheader";
@@ -25,10 +26,6 @@ import Footer from "./components/footer";
 //   AvatarImage,
 // } from "../../../../packages/ui/components/avatar";
 
-export const metadata: Metadata = {
-  title: "Authentication",
-  description: "Authentication forms built using the components.",
-};
 const Home = () => {
   return (
     <div>

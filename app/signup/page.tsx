@@ -1,6 +1,6 @@
+"use client";
 import * as React from "react";
-import { useMutation, useQuery, gql } from "@apollo/client";
-import { Metadata } from "next";
+// import { useMutation, useQuery, gql } from "@apollo/client";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,12 +24,6 @@ import { UserAuthForm } from "./components/user-auth-form";
 //   AvatarImage,
 // } from "../../../../packages/ui/components/avatar";
 import SigninButton from "../../components/SigninButton";
-
-export const metadata: Metadata = {
-  title: "Authentication",
-  description: "Authentication forms built using the components.",
-};
-
 const App: React.FunctionComponent = () => {
   return (
     <div className="h-screen flex items-center justify-center">

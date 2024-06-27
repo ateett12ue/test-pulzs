@@ -1,10 +1,5 @@
 "use client";
-
-// import { useMutation, useQuery, gql } from "@apollo/client";
-import { log } from "console";
-
 import { useEffect, useState } from "react";
-export const dynamic = "force-dynamic";
 import Script from "next/script";
 import { redirect } from "next/navigation";
 import Head from "next/head";

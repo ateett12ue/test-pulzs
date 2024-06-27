@@ -1,7 +1,8 @@
 export interface User {
   id: number;
-  image: string;
+  avatar: string;
+  image?: string;
   name: string;
   email: string;
-  isToggleOn: boolean;
+  isToggleOn?: boolean;
 }

@@ -24,7 +24,7 @@ interface UserListProps {
 
 //   return chunks.join("\n");
 // };
-const insertLineBreak = (str, breakIndex) => {
+const insertLineBreak = (str:any, breakIndex:any) => {
   return str.substring(0, breakIndex) + "\n" + str.substring(breakIndex);
 };
 const UserList: React.FC<UserListProps> = ({

@@ -99,9 +99,9 @@ export function Settings(props: Props) {
         toast.error("error", response.error);
       }
       setOpen(false);
-    } catch (error) {
+    } catch (error:any) {
       console.log("Error updating user name:", error);
-      toast("error", error.error);
+      toast.error("error", error.error);
     }
   };
   return (

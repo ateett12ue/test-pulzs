@@ -26,14 +26,14 @@ const schema = z.object({
     .min(6, { message: "Password should be at least 6 characters" }),
 });
 
-async function validateInput(data) {
+async function validateInput(data:any) {
   try {
     await schema.parseAsync(data);
     return null;
-  } catch (error) {
+  } catch (error:any) {
     return error.errors
-      .map((e) => e.message)
-      .filter((message) => !message.includes("Required"));
+      .map((e:any) => e.message)
+      .filter((message:any) => !message.includes("Required"));
   }
 }
 export function UserAuthForm() {
@@ -56,7 +56,7 @@ export function UserAuthForm() {
     }
   });
 
-  const validateField = async (name, value) => {
+  const validateField = async (name:any, value:any) => {
     const validationResult = await validateInput({ [name]: value });
     setErrors((prevErrors) => ({
       ...prevErrors,
@@ -64,16 +64,16 @@ export function UserAuthForm() {
     }));
   };
 
-  const registerUser = async (e) => {
+  const registerUser = async (e:any) => {
     e.preventDefault();
     const emailError = await validateInput({ email });
     const passwordError = await validateInput({ password });
     setErrors({
       email: emailError
-        ? emailError.find((e) => e.includes("Invalid email"))
+        ? emailError.find((e:any) => e.includes("Invalid email"))
         : null,
       password: passwordError
-        ? passwordError.find((e) =>
+        ? passwordError.find((e:any) =>
             e.includes("Password should be at least 6 characters")
           )
         : null,

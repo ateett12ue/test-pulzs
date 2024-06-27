@@ -12,7 +12,7 @@ import { NextResponse } from "next/server";
 // Load environment variables
 // config();
 
-export async function POST(request) {
+export async function POST(request:any) {
   
 
   // console.log(req.body);

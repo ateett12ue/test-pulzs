@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { Button } from "../../components/button";
 import {
@@ -57,7 +58,7 @@ export function CreatingWorkspace(props: WorkspaceProps) {
         console.error("workspace not created", response);
         toast.error("try again", response);
       }
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error creating workspace:", error);
       toast.error(error?.error);
     }

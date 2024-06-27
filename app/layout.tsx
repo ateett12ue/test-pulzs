@@ -1,3 +1,4 @@
+"use client";
 import { Providers } from "../components/Providers";
 import toast, { Toaster } from "react-hot-toast";
 import { MyContextProvider } from "../context/MyContext";

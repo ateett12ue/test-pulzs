@@ -12,7 +12,7 @@ export default function Register() {
     password: "",
   });
 
-  const registerUser = async (e) => {
+  const registerUser = async (e:any) => {
     e.preventDefault();
     // axios
     //   .post("/api/registerorlogin", data)
@@ -47,7 +47,7 @@ export default function Register() {
         // const errorData = await response.json();
         toast.error(`Registration failed: ${response}`);
       }
-    } catch (error) {
+    } catch (error:any) {
       console.error("Error during registration:", error?.error);
       toast.error("Something went wrong during registration");
     }

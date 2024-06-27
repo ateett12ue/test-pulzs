@@ -54,7 +54,7 @@ const checkAuthentication = async () => {
 
       return false;
     }
-  } catch (error) {
+  } catch (error:any) {
     console.error("Error checking authentication:", error?.error);
     // toast(error?.error)
     return false;

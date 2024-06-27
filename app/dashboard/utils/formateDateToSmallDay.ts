@@ -1,6 +1,6 @@
 import { parseISO, formatDistanceToNow } from "date-fns";
 
-export const formatToDays = (unformattedTime) => {
+export const formatToDays = (unformattedTime:any) => {
   const parsedDate = parseISO(unformattedTime);
   const distance = formatDistanceToNow(parsedDate, { addSuffix: false });
 

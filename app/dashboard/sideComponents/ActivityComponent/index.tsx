@@ -6,7 +6,7 @@ import CaughtUp from "../../components/caughtUp";
 import NotificationTab from "../../components/notificationTab";
 import { useSession } from "next-auth/react";
 
-const ActivityPage = ({ userVideos, workspace, handleDeleteVideo }) => {
+const ActivityPage = ({ userVideos, workspace, handleDeleteVideo }:any) => {
   const { data: session, status } = useSession();
   const [currentTime, setCurrentTime] = useState(new Date());
   let filteredUserVideos;
@@ -74,7 +74,7 @@ const ActivityPage = ({ userVideos, workspace, handleDeleteVideo }) => {
       <div className="notification-container">
         <div className="flex flex-col mx-3 my-6">
           <div>Done for now</div>
-          {userVideos?.map((video) => {
+          {userVideos?.map((video:any) => {
             {
               /* {userVideos?.map((video) => { */
             }

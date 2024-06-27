@@ -1,6 +1,6 @@
 import { formatDistanceToNow, isToday, isYesterday, parseISO } from "date-fns";
 
-export const formattedDate = (unformattedTime) => {
+export const formattedDate = (unformattedTime:any) => {
   if (!unformattedTime) {
     return "no unformattedTime given"; // Return empty string or handle the case as needed
   }

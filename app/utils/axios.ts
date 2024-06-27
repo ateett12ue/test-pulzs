@@ -45,7 +45,7 @@ export async function fetchData<T = unknown>({ url, body, method, headers = null
       return error
     }
   }
-  catch(ex)
+  catch(ex:any)
   {
     console.log("error in axios", ex)
     const error= {

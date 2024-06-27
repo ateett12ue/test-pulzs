@@ -121,10 +121,9 @@
 // };
 
 // export default App;
-// "use client";
+"use client";
 import * as React from "react";
-import { useMutation, useQuery, gql } from "@apollo/client";
-import { Metadata } from "next";
+// import { useMutation, useQuery, gql } from "@apollo/client";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -151,10 +150,10 @@ import { UserAuthForm } from "./components/user-auth-form";
 // } from "../../../../packages/ui/components/avatar";
 import { ForgetPassword } from "./components/forgetPassword";
 
-export const metadata: Metadata = {
-  title: "Authentication",
-  description: "Authentication forms built using the components.",
-};
+// export const metadata: Metadata = {
+//   title: "Authentication",
+//   description: "Authentication forms built using the components.",
+// };
 import CaughtIcon from "../../icons/FigmaIcon";
 import SigninButton from "../../components/SigninButton";;
 

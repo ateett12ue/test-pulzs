@@ -147,7 +147,7 @@ const Dashboard = () => {
   // const [showRrespondByComponent, setShowRespondByComponent] = useState(false);
   // const videoScreenRecorderRef = React.createRef();
   // Function to set the recorded data
-  const handleRecordingComplete = (data) => {
+  const handleRecordingComplete = (data:any) => {
     setRecordedVideoLink(data);
   };
   const handleRecording = () => {
@@ -202,11 +202,11 @@ const Dashboard = () => {
     // setIsNotRecording(true);
     setMoveToRecordingCompleted(true);
   };
-  const handleTitleChange = (event) => {
+  const handleTitleChange = (event:any) => {
     setTitle(event.target.value);
   };
 
-  const handleDescriptionChange = (event) => {
+  const handleDescriptionChange = (event:any) => {
     setDescription(event.target.value);
   };
 
@@ -221,11 +221,11 @@ const Dashboard = () => {
   const handleUsers = () => {
     // Handle the selected users in the parent component
   };
-  const handleResultsrc = (src) => {
+  const handleResultsrc = (src:any) => {
     // Handle the selected users in the parent component
   };
 
-  const handleRecordingCompleteAndGettingVideoId = (videoObject) => {
+  const handleRecordingCompleteAndGettingVideoId = (videoObject:any) => {
     // setVideoIdFromVideoScreenRecorder(videoId);
     setVideoObjectFromRecorder(videoObject);
 
@@ -443,7 +443,7 @@ const Dashboard = () => {
     setCurrentComponent(page);
   };
 
-  const handleDateFieldState = (state) => {
+  const handleDateFieldState = (state:any) => {
     // console.log("DateTimePicker State:", state.value);
     setDateFieldState(state.value);
     // if (dateFieldState) {
@@ -453,7 +453,7 @@ const Dashboard = () => {
     // setDateFieldState(state);
   };
 
-  const handleDeleteVideo = async (videoId, isRecievedVideo) => {
+  const handleDeleteVideo = async (videoId:any, isRecievedVideo:any) => {
     // e.stopPropagation();
 
     // console.log("entered handleDeleteVideo");
@@ -630,7 +630,7 @@ const Dashboard = () => {
                       onStateChange={handleDateFieldState}
                       dateFieldState={dateFieldState}
                       setDateFieldState={setDateFieldState}
-                      formattedHours={formattedHours}
+                      formattedHours={String(formattedHours)}
                       selectWorkspace={selectWorkspace}
                     />
 
