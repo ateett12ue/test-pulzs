@@ -127,7 +127,7 @@ const ScreenAndAudioRecorder = forwardRef((props, ref) => {
 
         const response = await fetch(
           // "http://localhost:8080/api/uploadVideo",
-          "https://pulze-backend.onrender.com/api/uploadVideo",
+          "https://back-end-repo-p11-debugdragons-pulze.onrender.com/api/uploadVideo",
           // `http://localhost:8080/api/comments/createvideocomment/${videoId}`,
           {
             method: "POST",
