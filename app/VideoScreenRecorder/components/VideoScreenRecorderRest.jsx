@@ -222,7 +222,8 @@ const VideoScreenRecorder = forwardRef((props, ref) => {
             console.log("form data for loop end");
 
             const response = await fetch(
-              "http://localhost:8080/api/uploadVideo",
+              // "http://localhost:8080/api/uploadVideo",
+              "https://pulze-backend.onrender.com/api/uploadVideo",
               // `http://localhost:8080/api/comments/createvideocomment/${videoId}`,
               {
                 method: "POST",

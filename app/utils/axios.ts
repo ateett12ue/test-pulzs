@@ -6,7 +6,7 @@ interface axiosProps {
   headers?: any;
 }
 // const BASE_URL = "https://pulze-backend.onrender.com/api"
-const BASE_URL = "http://localhost:8080/api"
+const BASE_URL = "https://pulze-backend.onrender.com/api"
 export async function fetchData<T = unknown>({ url, body, method, headers = null }: axiosProps): Promise<any> {
   try
   {

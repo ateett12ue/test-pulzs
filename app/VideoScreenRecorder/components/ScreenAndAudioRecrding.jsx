@@ -126,7 +126,8 @@ const ScreenAndAudioRecorder = forwardRef((props, ref) => {
         formData.append("selectWorkspaceId", selectWorkspace?.workspace_id);
 
         const response = await fetch(
-          "http://localhost:8080/api/uploadVideo",
+          // "http://localhost:8080/api/uploadVideo",
+          "https://pulze-backend.onrender.com/api/uploadVideo",
           // `http://localhost:8080/api/comments/createvideocomment/${videoId}`,
           {
             method: "POST",
