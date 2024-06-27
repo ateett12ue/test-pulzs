@@ -23,10 +23,10 @@ module.exports = {
       },
     ],
   },
-  webpack: (config, { isServer }) => {
-    if (isServer) {
-      config.externals = nodeExternals();
-    }
-    return config;
-  },
+  // webpack: (config, { isServer }) => {
+  //   if (isServer) {
+  //     config.externals = nodeExternals();
+  //   }
+  //   return config;
+  // },
 };
